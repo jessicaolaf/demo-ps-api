@@ -5,7 +5,7 @@ The function is designed to call external/public APIs via an HTTP trigger and re
 
 ---
 
-## 📂 Repository Structure  
+## 📂 Function App  File Description
 
 | File | Description |
 |------|-------------|
@@ -53,8 +53,8 @@ Test the function:
 curl "http://localhost:7071/api/HttpTriggerAPI?apiUrl=https://api.fda.gov/tobacco/problem.json?count=tobacco_products.exact"
 curl "http://localhost:7071/api/HttpTriggerAPI"
 ```
-
 Other tools like Postman can be used as well
+
 ---
 
 ## ▶️ Deployment using GitHUb Action
