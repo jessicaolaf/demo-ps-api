@@ -5,5 +5,4 @@ variable "resource_group_name" { type = string }
 variable "storage_account_name" { type = string }
 variable "storage_account_id" { type = string }
 variable "app_service_plan_id" { type = string }
-variable "log_analytics_id" { type = string }
-variable "app_insights_key" { type = string }
+

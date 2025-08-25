@@ -34,6 +34,4 @@ module "function_app" {
   storage_account_name  = module.storage.name
   storage_account_id    = module.storage.id
   app_service_plan_id   = module.plan.id
-  log_analytics_id      = module.log_analytics.id
-  app_insights_key      = module.log_analytics.app_insights_key
 }

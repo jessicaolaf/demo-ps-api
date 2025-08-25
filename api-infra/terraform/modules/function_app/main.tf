@@ -17,6 +17,5 @@ resource "azurerm_windows_function_app" "function_app" {
     FUNCTIONS_WORKER_RUNTIME     = "powershell"
     FUNCTIONS_EXTENSION_VERSION  = "~4"
     WEBSITE_RUN_FROM_PACKAGE     = "1"
-    APPINSIGHTS_INSTRUMENTATIONKEY = var.app_insights_key
   }
 }
