@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "api-infra/**"
+      - "api-infra/terraform**"
 
 permissions:
   id-token: write
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api-infra
+        working-directory: api-infra/terraform/demo
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
     environment: Demo   # Approval required before this job starts
     defaults:
       run:
-        working-directory: api-infra
+        working-directory: api-infra/terraform/demo
     steps:
       - name: Checkout
         uses: actions/checkout@v4
