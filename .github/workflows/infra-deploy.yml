@@ -1,0 +1,67 @@
+name: Infra Deploy (Terraform)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "api-infra/**"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  PROJECT_NAME: psapi               # change as needed
+  AZURE_LOCATION: centralus            # change as needed
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api-infra
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: terraform init -input=false
+
+      - name: Terraform Plan
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          terraform plan \
+            -var "project_name=${{ env.PROJECT_NAME }}" \
+            -var "location=${{ env.AZURE_LOCATION }}"
+
+      - name: Terraform Apply
+        environment: Demo
+        if: github.ref == 'refs/heads/main'
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          terraform apply -auto-approve -input=false \
+            -var "project_name=${{ env.PROJECT_NAME }}" \
+            -var "location=${{ env.AZURE_LOCATION }}"
