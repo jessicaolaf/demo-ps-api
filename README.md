@@ -44,6 +44,7 @@ The function is designed to call external/public APIs via an HTTP trigger and re
 ### Steps  
 ```bash
 # Start function locally
+cd .\ps-api-func\
 func host start
 ```
 
