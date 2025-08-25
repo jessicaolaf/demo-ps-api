@@ -33,5 +33,6 @@ module "function_app" {
   environment           = var.environment
   storage_account_name  = module.storage.name
   storage_account_id    = module.storage.id
+  storage_account_access_key    = module.storage.primary_access_key
   app_service_plan_id   = module.plan.id
 }
